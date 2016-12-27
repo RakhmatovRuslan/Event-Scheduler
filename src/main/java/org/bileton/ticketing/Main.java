@@ -12,7 +12,7 @@ import static org.quartz.TriggerBuilder.newTrigger;
  * Hello world!
  *
  */
-public class App
+public class Main
 {
     public static void main( String[] args ) throws SchedulerException, InterruptedException {
         SchedulerFactory schedulerFactory = new StdSchedulerFactory();
@@ -20,7 +20,7 @@ public class App
 
         // define the job and tie it to our EventStatusJob class
         JobDetail job = newJob(EventStatusJob.class)
-                .withIdentity("job1")
+                .withIdentity("job1","group1")
                 .build();
 
         // compute a time that is on the next round minute
@@ -29,7 +29,7 @@ public class App
 
         //Trigger the job to run on the next round minute
         CronTrigger trigger = newTrigger()
-                .withIdentity("trigger1")
+                .withIdentity("trigger1","group1")
                 .withSchedule(CronScheduleBuilder.cronSchedule("0/10 * * * * ?"))
                 .build();
 

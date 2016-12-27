@@ -33,6 +33,7 @@ public class EventService {
     }
 
     public void updateEventStatus(){
+        session.clearCache();
         List<EventScheduler> eventSchedulers = session.selectList("EventScheduler.getAll");
         if(eventSchedulers != null) {
             Timestamp currentTime = new Timestamp(Calendar.getInstance().getTime().getTime());
@@ -41,12 +42,10 @@ public class EventService {
                     session.update("EventScheduler.updateEvent", eventScheduler);
                     session.delete("EventScheduler.delete", eventScheduler);
                     session.commit();
-                    session.close();
                 } else if (!eventScheduler.getActivation() && currentTime.getTime() > eventScheduler.getDate().getTime()) {
                     session.update("EventScheduler.updateEvent", eventScheduler);
                     session.delete("EventScheduler.delete", eventScheduler);
                     session.commit();
-                    session.close();
                 }
             }
         }
