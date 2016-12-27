@@ -6,7 +6,7 @@ import java.sql.Timestamp;
  * Created by Ruslan on 12/26/2016.
  */
 public class EventScheduler {
-    private Integer id;
+    private Long id;
     private Timestamp date;
     private Boolean isActivation;
     private Integer eventStatus;
@@ -15,7 +15,7 @@ public class EventScheduler {
     public EventScheduler() {
     }
 
-    public EventScheduler(Integer id, Timestamp date, Boolean isActivation, Integer eventStatus, Integer eventId) {
+    public EventScheduler(Long id, Timestamp date, Boolean isActivation, Integer eventStatus, Integer eventId) {
         this.id = id;
         this.date = date;
         this.isActivation = isActivation;
@@ -23,11 +23,11 @@ public class EventScheduler {
         this.eventId = eventId;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

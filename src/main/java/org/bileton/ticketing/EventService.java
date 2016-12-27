@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -31,9 +33,22 @@ public class EventService {
     }
 
     public void updateEventStatus(){
-        List<EventScheduler> eventEventSchedulers = session.selectList("EventScheduler.getAll");
-        for (EventScheduler eventScheduler: eventEventSchedulers) {
-            System.out.println(eventScheduler);
+        List<EventScheduler> eventSchedulers = session.selectList("EventScheduler.getAll");
+        if(eventSchedulers != null) {
+            Timestamp currentTime = new Timestamp(Calendar.getInstance().getTime().getTime());
+            for (EventScheduler eventScheduler : eventSchedulers) {
+                if (eventScheduler.getActivation() && currentTime.getTime() > eventScheduler.getDate().getTime()) {
+                    session.update("EventScheduler.updateEvent", eventScheduler);
+                    session.delete("EventScheduler.delete", eventScheduler);
+                    session.commit();
+                    session.close();
+                } else if (!eventScheduler.getActivation() && currentTime.getTime() > eventScheduler.getDate().getTime()) {
+                    session.update("EventScheduler.updateEvent", eventScheduler);
+                    session.delete("EventScheduler.delete", eventScheduler);
+                    session.commit();
+                    session.close();
+                }
+            }
         }
     }
 }

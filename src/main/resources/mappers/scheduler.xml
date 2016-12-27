@@ -12,6 +12,19 @@
     </resultMap>
 
     <select id="getAll" resultMap="result">
-        SELECT * FROM event_scheduler;
+        SELECT * FROM event_scheduler
     </select>
+
+    <!-- Update event -->
+    <update id="updateEvent" parameterType="EventScheduler">
+        UPDATE event
+        SET status = #{eventStatus}
+        WHERE id=#{eventId}
+    </update>
+
+    <!-- Delete an event scheduler-->
+    <delete id="delete" parameterType="EventScheduler">
+        DELETE FROM event_scheduler WHERE id = #{id}
+    </delete>
+
 </mapper>
